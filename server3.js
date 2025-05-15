@@ -6,13 +6,13 @@ const PORT = 3000;
 
 
 app.get('/team', (req, res) => { 
-    const filePath = path.join(__dirname, 'server3-files', 'team.html');
-    res.sendFile(filePath);
+    const teamPath = path.join(__dirname, 'server3-files', 'team.html');
+    res.sendFile(teamPath);
 }); 
 
 app.get('/about', (req, res) => { 
-    const filePath = path.join(__dirname, 'server3-files', 'about.html');
-    res.sendFile(filePath);
+    const aboutPath = path.join(__dirname, 'server3-files', 'about.html');
+    res.sendFile(aboutPath);
 }); 
 
 app.get('/', (req, res) => { 

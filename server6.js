@@ -1,15 +1,19 @@
 const express = require('express')
+const fs = require('fs');
+const app = express();
+const path = require('path');
 
-const app = express()
+app.use(express.static("server-6-static-files/public"));
+app.use(express.urlencoded({ extended: true })); // Middleware to parse form data
 
 app.get('/formulario', (req, res) => {
-    res.status(200).send(`
+  res.status(200).send(`
     <html>
     <head>
     <link rel="stylesheet" href="/estilos.css">
     </head>
     <body>
-    <form class="form" method="POST" action="/">
+    <form class="form" method="POST" action="/formulario">
     <label for="name" class="label-name">Name</label>
     <input type="text" id="name" name="name" maxlength="40" class="field field-name" />
   
@@ -24,11 +28,20 @@ app.get('/formulario', (req, res) => {
   </body>
     </html>
   `)
-})
+});
+
+app.post('/formulario', (req, res) => {
+  const { name, email, message } = req.body;
+  const row = `"${name}","${email}","${message}"\n`;
+  const routeCSV = path.join(__dirname, 'inscritos.csv');
+
+  fs.appendFileSync(routeCSV, row);
+  res.send("Usuario inscrito correctamente");
+});
 
 app.use((req, res) => {
-    res.status(404).send('Recurso no encontrado...')
-  })
+  res.status(404).send('Recurso no encontrado...')
+});
 
 app.listen(3000)
-  
+
